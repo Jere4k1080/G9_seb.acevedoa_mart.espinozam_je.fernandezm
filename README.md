@@ -1,12 +1,13 @@
-# Módulo de Preguntas — App Aprueba
+# Módulo de Preguntas · App Aprueba
 
-> Núcleo de práctica de la aplicación móvil de **Aprueba**, plataforma de preparación para exámenes de admisión universitaria (PAES).
+> Núcleo de práctica de la aplicación de **Aprueba**, plataforma de preparación para la PAES.
 
 Proyecto de Título (Capstone) · Grupo 9 · Duoc UC San Bernardo · 2026
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.22%2B-02569B?logo=flutter&logoColor=white)
 ![Dart](https://img.shields.io/badge/Dart-3.3%2B-0175C2?logo=dart&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-Express-339933?logo=nodedotjs&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.115%2B-009688?logo=fastapi&logoColor=white)
 ![Firestore](https://img.shields.io/badge/Firestore-Firebase-FFCA28?logo=firebase&logoColor=black)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
 ![Metodología](https://img.shields.io/badge/Metodolog%C3%ADa-Extreme%20Programming-1A365D)
@@ -20,21 +21,22 @@ Proyecto de Título (Capstone) · Grupo 9 · Duoc UC San Bernardo · 2026
 - [Alcance](#alcance)
 - [Tecnologías](#tecnologías)
 - [Arquitectura](#arquitectura)
-- [Instalación y ejecución](#instalación-y-ejecución)
+- [Ejecución local](#ejecución-local)
 - [Estructura del repositorio](#estructura-del-repositorio)
 - [Metodología de trabajo](#metodología-de-trabajo)
 - [Convenciones](#convenciones)
+- [Uso de inteligencia artificial](#uso-de-inteligencia-artificial)
 - [Equipo](#equipo)
 
 ---
 
 ## Descripción
 
-Aprueba es una plataforma freemium de práctica intensiva para estudiantes que rinden exámenes estandarizados de admisión universitaria, con mercado inicial en Chile y expansión proyectada al Reino Unido. Su modelo entrega un flujo diario de preguntas desde un banco central, con desbloqueo progresivo a cambio de datos del estudiante y suscripciones de bajo costo.
+Aprueba es una plataforma freemium de práctica para estudiantes que rinden la PAES. Entrega un flujo diario de preguntas desde un banco central, con una cuota gratuita que se amplía a cambio de datos del estudiante o con una suscripción de bajo costo.
 
-Este repositorio contiene el **módulo de preguntas**: el ciclo funcional donde el estudiante recibe una pregunta, la responde contra reloj, conoce su resultado comparado con la cohorte, accede a la explicación paso a paso y a la habilidad evaluada, gestiona su cuota diaria y puede solicitar la recorrección de una pregunta que considere errónea.
+Este proyecto construye el **módulo de preguntas**, el ciclo en que el estudiante recibe una pregunta, la responde contra reloj, ve su resultado comparado con el de otros estudiantes, revisa la explicación paso a paso y la habilidad evaluada, administra su cuota diaria y puede pedir la revisión de una pregunta que considere errónea.
 
-Es el núcleo de valor del producto: sin él, la aplicación no cumple su propósito.
+La empresa contraparte es **Alloxentric**, vinculada mediante la Incubadora Duoc UC San Bernardo.
 
 ---
 
@@ -42,91 +44,71 @@ Es el núcleo de valor del producto: sin él, la aplicación no cumple su propó
 
 | | |
 |---|---|
-| Fase actual | Fase 2 — Desarrollo (semanas 5 a 15) |
-| Iteración en curso | Iteración 1 · Habilitación del entorno |
-| Próxima entrega funcional | Entrega 1, al cierre de la iteración 3 |
+| Fase | Fase 2: Desarrollo (semanas 5 a 15) |
+| Iteración en curso | Iteración 6 (semana 10): pantalla Habilidad, elegir materia y volver al inicio |
+| Avance | 56 de 91 puntos (62 %) al cierre de la iteración 5 |
+| Velocidad por iteración | 4, 5, 26, 11 y 10 puntos |
+| Entrega funcional 1 | Aceptada en producción el 29/09/2026 |
+| Entrega funcional 2 | Cierra con la iteración 6 |
 
-La Fase 1 cerró con la definición del proyecto documentada: enunciado de alcance, visión del producto, lista de historias de usuario, estructura de desglose del trabajo, carta Gantt, acta de constitución y documento de requerimientos.
+**En producción**
+
+- App web: https://aprueba-app-modulo-preguntas.vercel.app
+- API: https://aprueba-app-modulo-preguntas-api.vercel.app/api/v1/health
+
+Cada entrega la acepta el encargado de pruebas del equipo sobre el entorno desplegado, en un navegador real, siguiendo un registro de prueba con pasos y hallazgos.
 
 ---
 
 ## Alcance
 
-### Incluido
+### Pantallas
 
-**Seis pantallas** en el cliente móvil:
+| Pantalla | Función | Estado |
+|---|---|---|
+| Pregunta | Enunciado con 4 o 5 alternativas, cronómetro y progreso del día | En producción |
+| Resultado | Acierto o error, alternativa correcta, explicación breve, percentil y medalla | En producción |
+| Explicación detallada | Pasos, verificación y concepto principal | En producción |
+| Habilidad | Habilidad evaluada, dominio, ruta de aprendizaje y recursos | Iteración 6 |
+| Recorrección | Solicitud de revisión con motivo y comentario | Iteración 8 |
+| Desbloqueo de cuota | Ampliación de la cuota declarando colegio o región | Iteración 7 |
 
-| Pantalla | Función |
-|---|---|
-| Pregunta | Enunciado y alternativas, cronómetro, descuento de cuota |
-| Resultado | Acierto o error, alternativa correcta, explicación breve, percentil de velocidad, medalla obtenida |
-| Explicación detallada | Planteamiento, pasos intermedios, verificación y concepto clave |
-| Habilidad | Habilidad evaluada, nivel de dominio, árbol de prerrequisitos y recursos recomendados |
-| Recorrección | Solicitud de revisión con motivo tipificado y comentario |
-| Desbloqueo de cuota | Ampliación de la cuota diaria declarando colegio o región |
+### Servicios
 
-**Trece servicios** en el backend:
+Catorce servicios bajo `/api/v1`: los trece del contrato de la empresa más `GET /me`, que se agregó como ajuste de alcance.
 
-```
-Práctica       GET  /practice/next
-               GET  /questions/{id}
-               POST /questions/{id}/answer
-               GET  /questions/{id}/explanation
-               GET  /questions/{id}/skill
+| Grupo | Servicio | Estado |
+|---|---|---|
+| Perfil | `GET /me` | En producción |
+| Configuración | `GET /tests` · `GET /me/preferences` · `PUT /me/preferences` | En producción |
+| Práctica | `GET /practice/next` · `GET /questions/{id}` · `POST /questions/{id}/answer` · `GET /questions/{id}/explanation` · `GET /questions/{id}/skill` | En producción |
+| Cuota | `GET /me/quota` · `POST /me/quota/unlock` | Iteración 7 |
+| Recorrección | `POST /corrections` · `GET /corrections` | Iteración 8 |
+| Progreso | `GET /me/progress` | Iteración 9 |
 
-Cuota          GET  /me/quota
-               POST /me/quota/unlock
+El inicio de sesión con Firebase Authentication entró al alcance por autorización de la empresa. La versión web es plataforma del producto: el mismo código corre en navegador, Android e iOS.
 
-Recorrección   POST /corrections
-               GET  /corrections
+### Fuera del alcance
 
-Configuración  GET  /tests
-               GET  /me/preferences
-               PUT  /me/preferences
-               GET  /me/progress
-```
+El registro y el restablecimiento de contraseña, que resuelve Firebase. También el onboarding, la pantalla de inicio, las medallas y canjes, los grupos, la comunidad, los tutores, el muro de pago, los ajustes, las notificaciones, la consola de administración, el generador de preguntas, el sitio web del alumno y la landing.
 
-Además: la lógica de cuota diaria escalonada y la economía de recompensas, el modelo de datos del módulo con su caché local sin conexión, la integración del manejo de sesión y renovación de credenciales, las pruebas unitarias y de integración, y el empaquetado en contenedores con despliegue reproducible.
-
-### No incluido
-
-Registro y autenticación, onboarding, pantalla de inicio, sistema de medallas y canjes, regalos y beneficios, grupos de estudio, comunidad, marketplace de tutores, muro de pago y suscripciones, ajustes y notificaciones.
-
-Tampoco la consola de administración, el generador de preguntas, el sitio web del alumno ni la landing de marketing.
-
-La pasarela de pago, el inicio de sesión social y las notificaciones push se consumen pero no se intervienen. La generación y curaduría del banco de preguntas es insumo de la empresa contraparte.
+El banco de preguntas real pertenece a la empresa y no se versiona en este repositorio. El entorno de demostración usa un banco de prueba propio.
 
 ---
 
 ## Tecnologías
 
-### Cliente móvil
+| Capa | Tecnología |
+|---|---|
+| App | Flutter 3.22+ y Dart 3.3+, con Riverpod, GoRouter, Dio y Drift (SQLite) para la caché local |
+| Autenticación | Firebase Authentication con correo y contraseña |
+| Backend | Python 3.12 con FastAPI y Pydantic v2 |
+| Datos | Firestore, en southamerica-east1 |
+| Despliegue | Vercel: un proyecto para la app web y otro para la API, en São Paulo |
+| Contenedores | Docker Compose con la API y el emulador de Firestore |
+| Pruebas | `pytest` contra el emulador de Firestore y `flutter test` |
 
-| Componente | Tecnología | Rol |
-|---|---|---|
-| Framework | Flutter 3.22+ / Dart 3.3+ | Un solo código para iOS y Android |
-| Estado | Riverpod | Gestión de estado reactiva y testeable |
-| Navegación | GoRouter | Enrutamiento declarativo |
-| Red | Dio | Cliente HTTP con interceptor de renovación de tokens |
-| Persistencia local | Drift (SQLite) | Caché para repaso sin conexión |
-| Almacenamiento seguro | flutter_secure_storage | Custodia del refresh token |
-
-### Backend
-
-| Componente | Tecnología | Rol |
-|---|---|---|
-| Runtime | Node.js | Entorno de ejecución |
-| Framework | Express | API REST bajo `/api/v1` |
-| Base de datos | Firestore (Firebase Admin SDK) | Persistencia, con emulador para desarrollo local |
-| Autenticación | JWT | Access token de 15 min + refresh de 30 días con rotación |
-| Empaquetado | Docker y archivo de composición | Levantamiento reproducible del entorno |
-
-### Justificación de las decisiones principales
-
-- **Flutter** permite mantener un único código fuente para ambas plataformas móviles, algo determinante para un equipo de tres personas con plazo acotado.
-- **Riverpod** ofrece inyección de dependencias y estado testeable sin acoplar la lógica al árbol de widgets, lo que facilita escribir la prueba antes que el código.
-- **Drift** habilita el repaso sin conexión, requisito funcional del producto, con consultas tipadas y verificadas en tiempo de compilación.
-- **Firestore** es la base de datos ya adoptada por el ecosistema; mantenerla evita divergencias en el modelo de datos.
+Dos decisiones las tomó la empresa durante el desarrollo. El backend pasó de Node con Express a FastAPI, para que fuera consistente con el backend de administración que la empresa ya tiene en ese lenguaje. Y la autenticación pasó de tokens propios a Firebase, que también usa el resto del producto. Las dos llegaron antes de implementar los servicios del módulo, así que solo hubo que rehacer el andamiaje.
 
 ---
 
@@ -134,109 +116,59 @@ La pasarela de pago, el inicio de sesión social y las notificaciones push se co
 
 ```mermaid
 flowchart TD
-    subgraph client["App Flutter - iOS y Android"]
+    subgraph app["App Flutter · web, Android e iOS"]
         UI["Pantallas<br/>features/practice/"]
-        PROV["Providers<br/>Riverpod"]
+        PROV["Providers · Riverpod"]
         REPO["Repositorios"]
-        CACHE[("Drift · SQLite<br/>caché offline")]
+        CACHE[("Drift · SQLite<br/>caché local")]
         API["ApiClient · Dio"]
     end
 
-    subgraph server["Backend"]
-        EXPRESS["Node.js + Express<br/>/api/v1"]
-        SDK["Firebase Admin SDK"]
+    AUTH["Firebase Authentication"]
+
+    subgraph server["API · Vercel, São Paulo"]
+        FAST["FastAPI · /api/v1"]
+        ADMIN["Firebase Admin<br/>validación del token"]
     end
 
-    DB[("Firestore")]
+    DB[("Firestore<br/>reglas: sin acceso del cliente")]
 
-    UI --> PROV
-    PROV --> REPO
-    REPO --> API
+    UI --> PROV --> REPO --> API
     REPO <--> CACHE
-    API -->|"HTTPS · JWT Bearer"| EXPRESS
-    EXPRESS --> SDK
-    SDK --> DB
+    UI -->|"inicio de sesión"| AUTH
+    API -->|"HTTPS · token de Firebase"| FAST
+    FAST --> ADMIN
+    FAST --> DB
 ```
 
-### Flujo de datos
+**Flujo.** La interfaz nunca habla directamente con la red: toda petición pasa por `UI → provider → repositorio → ApiClient`. La app tampoco lee Firestore; todo pasa por la API, y las reglas de seguridad niegan cualquier acceso directo del cliente.
 
-La interfaz nunca conversa directamente con la red. Toda petición atraviesa la cadena `UI → provider → repositorio → ApiClient`. En cada lectura el repositorio escribe el resultado en la caché local y, ante un fallo de red, intenta servir la última copia disponible.
+**Sesión.** La app inicia sesión con Firebase y envía el token en cada petición. Si la API responde 401, la app pide un token nuevo y reintenta una vez; si vuelve a fallar, cierra la sesión y borra la caché local.
 
-### Manejo de sesión
+**Respuestas.** Todas comparten la forma `{ data, error, meta }`, con un identificador de solicitud en `meta`. Los errores traen un código estable y un mensaje en español o inglés según el idioma de la app. Los errores de negocio se convierten en estados de pantalla: alcanzar la cuota base lleva a la pantalla de desbloqueo, no a un mensaje de error.
 
-El access token viaja en la cabecera `Authorization`. Ante una respuesta 401, el interceptor de Dio renueva las credenciales con el refresh token, que rota en cada uso, y reintenta la petición original de forma transparente. Si la renovación falla, la sesión se marca como cerrada y el router redirige al inicio.
+**Integridad.** La alternativa correcta y la explicación no llegan al dispositivo antes de que el estudiante responda. Lo sostienen cinco puntos: la API las elimina antes de responder, ninguna ruta las entrega antes de tiempo, el modelo de la app las acepta vacías, la caché local las guarda solo después de responder y las reglas de Firestore niegan la lectura directa. Una prueba automática recorre todas las rutas y falla si alguna las entrega.
 
-### Contrato de respuestas
-
-Todas las respuestas de la API comparten una estructura común:
-
-```json
-{
-  "data":  { },
-  "error": null,
-  "meta":  { "requestId": "...", "timestamp": "..." }
-}
-```
-
-En caso de error, `data` es `null` y `error` contiene `code` (identificador estable, legible por máquina), `message` (texto listo para mostrar), `details` y `field`.
-
-Dos decisiones de diseño atraviesan todo el módulo:
-
-- **Los códigos de error de negocio se traducen a estados de interfaz, no a mensajes genéricos.** Alcanzar la cuota base conduce a la pantalla de desbloqueo; no produce un error.
-- **La respuesta correcta no viaja al cliente antes de que el estudiante responda.** Ni `GET /practice/next` ni `GET /questions/{id}` la incluyen. Es una regla de integridad del producto.
+**Pregunta pendiente.** La pregunta entregada queda pendiente hasta que se responde, aunque el estudiante salga y vuelva o abra otra pestaña. Así nadie puede recorrer el banco sin gastar cuota. Responder es una sola transacción que registra la respuesta, descuenta la cuota, otorga las medallas y actualiza las estadísticas de la pregunta.
 
 ---
 
-## Instalación y ejecución
+## Ejecución local
 
-### Requisitos previos
+**Requisitos:** Flutter 3.22+, Python 3.12 con `uv`, Java 21 para el emulador de Firestore y Node para la CLI de Firebase. Docker Desktop es opcional.
 
-- Flutter 3.22 o superior (Dart 3.3+)
-- Android Studio con el SDK de Android, o Xcode para iOS
-- Node.js y npm
-- Docker, o bien Java si se prefiere levantar el emulador de Firestore de forma directa
-
-### Cliente móvil
+El desarrollo local se hace contra el emulador de Firestore y el backend local, nunca contra producción. El emulador escucha en `127.0.0.1:8085`, el backend en el puerto 4000 y la app web en el 5050, que es el origen que el backend local permite.
 
 ```bash
-cd aprueba_app
-
-# Genera las carpetas nativas android/ e ios/
-flutter create --org cl.aprueba --project-name aprueba_app .
-
+# App
 flutter pub get
-
-# Obligatorio: genera database.g.dart, requerido por Drift
 dart run build_runner build --delete-conflicting-outputs
-
-flutter run --dart-define=API_BASE_URL=http://127.0.0.1:4000/api/v1
+flutter run -d chrome --web-port=5050 --dart-define=API_BASE_URL=http://localhost:4000/api/v1
 ```
 
-> Sin ejecutar `build_runner` el proyecto no compila, porque la capa de persistencia local depende de código generado.
+`build_runner` es obligatorio: genera el código de la caché local, y sin él la app no compila.
 
-### Backend
-
-```bash
-cd backend
-npm install
-cp .env.example .env
-npm run emulator   # emulador de Firestore, en otra terminal
-npm run seed       # datos de prueba
-npm start          # API en http://127.0.0.1:4000/api/v1
-```
-
-### Configuración
-
-No hay credenciales en el código. Todos los valores sensibles se inyectan mediante `--dart-define` en el cliente y variables de entorno en el backend.
-
-### Verificación
-
-```bash
-flutter analyze                    # análisis estático
-flutter test                       # pruebas unitarias
-python3 tool/check_static.py .     # verificación auxiliar sin SDK de Flutter
-python3 tool/check_models.py       # contrasta los modelos con respuestas reales
-```
+La guía completa, con el emulador, la carga de datos de prueba y el backend paso a paso, está en el README del repositorio del proyecto. Con Docker, `docker compose up --build` levanta la API y el emulador juntos.
 
 ---
 
@@ -244,72 +176,61 @@ python3 tool/check_models.py       # contrasta los modelos con respuestas reales
 
 ```
 .
-├── aprueba_app/                 Cliente móvil Flutter
-│   ├── lib/
-│   │   ├── core/                tema, i18n, router, red, storage, configuración
-│   │   ├── data/
-│   │   │   ├── local/           persistencia Drift
-│   │   │   ├── models/          modelo lógico de la API
-│   │   │   └── repositories/    un repositorio por dominio
-│   │   ├── features/
-│   │   │   └── practice/        ← módulo de preguntas
-│   │   └── providers/           wiring de Riverpod
-│   ├── test/                    pruebas unitarias
-│   └── tool/                    verificadores auxiliares
-│
-├── backend/                     API REST
-│   └── src/
-│       ├── routes/              definición de endpoints
-│       ├── services/            lógica de negocio
-│       └── seed/                datos de prueba
-│
-└── docs/                        documentación del proyecto
+├── lib/                         App Flutter
+│   ├── core/                    tema, i18n, router, red y configuración
+│   ├── data/                    modelos, repositorios y caché local (Drift)
+│   ├── features/practice/       ← módulo de preguntas
+│   └── providers/               Riverpod
+├── test/                        pruebas de la app
+├── backend/
+│   ├── app/
+│   │   ├── core/                envelope, errores, idioma y autenticación
+│   │   ├── routers/             servicios bajo /api/v1
+│   │   ├── services/            lógica de negocio
+│   │   └── seed/                banco de prueba y datos de demostración
+│   └── tests/                   pruebas del backend
+├── docs/
+│   ├── bitacora_decisiones.md   decisiones de arquitectura y diseño
+│   └── diccionario_de_datos.md  colecciones, campos e índices
+├── firestore.rules
+├── firestore.indexes.json
+└── compose.yaml
 ```
 
 ---
 
 ## Metodología de trabajo
 
-El proyecto aplica **Extreme Programming** como metodología única.
-
-La elección responde a un diagnóstico y no a una preferencia. El problema del equipo no era de organización sino técnico: ninguno de los tres había escrito Dart antes de comenzar. Extreme Programming prescribe las prácticas de ingeniería que ese problema exige, mientras que un marco de gestión por sí solo las deja a criterio del equipo. La coordinación de tres personas de la misma sección, con horario común, cabe en un tablero.
+El proyecto aplica **Extreme Programming** como metodología única. La elección partió de un diagnóstico: el problema del equipo era técnico, porque ninguno había escrito Dart antes de empezar, y XP prescribe las prácticas de ingeniería que ese problema necesita.
 
 ### Iteraciones
 
-Diez iteraciones semanales, agrupadas en tres entregas funcionales.
+Diez iteraciones semanales en tres entregas funcionales.
 
-| Entrega | Iteraciones | Semanas | Contenido |
+| Iteración | Semana | Contenido | Puntos |
 |---|---|---|---|
-| 1 | 1 a 3 | 5 a 7 | Entorno operativo, modelo de datos y la primera pantalla funcionando de punta a punta |
-| 2 | 4 a 6 | 8 a 10 | El ciclo completo de aprendizaje: responder, entender por qué y conocer la habilidad evaluada |
-| 3 | 7 a 10 | 11 a 14 | Cuota diaria, recorrección, funcionamiento sin conexión, pruebas de integración y contenedores |
+| 1 | 5 | Despliegue y entorno | 4 |
+| 2 | 6 | Modelo de datos | 5 |
+| 3 | 7 | Inicio de sesión, configuración y pantalla Pregunta. **Cierra la Entrega 1** | 26 |
+| 4 | 8 | Registro de la respuesta, pantalla Resultado y percentil | 11 |
+| 5 | 9 | Explicación detallada, facsímil, entorno en los tres equipos y contenedores | 10 |
+| 6 | 10 | Habilidad, elegir materia y volver al inicio. **Cierra la Entrega 2** | En curso |
+| 7 | 11 | Cuota y desbloqueo | Planificada |
+| 8 | 12 | Recorrección | Planificada |
+| 9 | 13 | Progreso y práctica sin conexión, en móvil y navegador | Planificada |
+| 10 | 14 | Pruebas de integración. **Cierra la Entrega 3** | Planificada |
 
-Al inicio de cada iteración se eligen las historias, se estiman y se dividen en tareas. Al cierre se mide el trabajo completado, y ese dato sirve para planificar la iteración siguiente.
+Al inicio de cada iteración se eligen y estiman las historias del Product Backlog. Al cierre, el encargado de pruebas acepta lo terminado y se registra la velocidad: una historia que no cumple todos los criterios de terminado no suma puntos y pasa a la iteración siguiente.
 
-### Prácticas adoptadas
+### Prácticas
 
-| Práctica | Aplicación |
-|---|---|
-| Programación en pares | Las tres primeras iteraciones se trabajan íntegramente en pares; después se mantiene para la lógica de cuota, el interceptor de sesión y la caché |
-| Prueba antes que el código | Las reglas de cuota, recompensas y recorrección son verificables, así que se fijan como pruebas antes de implementarse |
-| Integración continua | Se incorpora a la rama principal a diario, no al final de la semana |
-| Refactorización | Mejora permanente del diseño existente, sin etapa separada |
-| Diseño simple | La solución más sencilla que funcione y pase las pruebas |
-| Propiedad colectiva | Cualquiera puede modificar cualquier archivo |
-| Estándares de código | Analizador estático del proyecto y convenciones de Dart y de Node |
-| Entregas pequeñas | Tres entregas funcionales durante el semestre, no una sola al final |
-| Ritmo sostenible | El proyecto convive con el resto de las asignaturas |
-| Reunión de pie | Corta, para sincronizar y detectar bloqueos |
-| Juego de planificación | Al inicio de cada iteración |
-| Metáfora | El módulo se entiende como el ciclo de práctica del estudiante: recibe una pregunta, responde, aprende del resultado y, si detecta un error, lo reclama |
+Juego de planificación, entregas pequeñas, prueba antes que el código, integración continua mediante solicitudes revisadas, refactorización, diseño simple, propiedad colectiva del código, estándares de código, ritmo sostenible y reflexión de cierre de cada iteración.
 
 ### Desviaciones declaradas
 
-**Cliente en sitio.** Extreme Programming contempla la presencia permanente del cliente durante el desarrollo. La contraparte no participa del trabajo diario, de modo que la práctica no se cumple. La mitigación tiene tres partes: un integrante asume el rol de cliente para las decisiones diarias, interpretando el contrato de servicios y las reglas documentadas sin inventar; cada decisión tomada sin confirmación queda registrada con su fuente y su impacto potencial; y las entregas funcionales se validan con la contraparte, aunque de forma espaciada.
+**Cliente en sitio.** La empresa no participa del trabajo diario. Las definiciones se consultan por escrito y cada decisión tomada sin confirmación queda registrada en la bitácora con su fuente y su impacto. El encargado de pruebas traduce la especificación de la empresa a pruebas de aceptación, y las entregas se validan con la empresa.
 
-**Reunión de pie diaria.** Se adapta a una sincronización semanal breve, porque los tres integrantes no comparten jornada completa.
-
-Ambas se declaran por transparencia metodológica. Declarar la desviación vale más que sostener que se aplica la metodología completa.
+**Reunión de pie.** Se adapta a una sincronización semanal breve, porque los tres integrantes no comparten jornada completa.
 
 ---
 
@@ -317,21 +238,23 @@ Ambas se declaran por transparencia metodológica. Declarar la desviación vale 
 
 ### Criterios de terminado
 
-Una historia está terminada cuando sus pruebas de aceptación pasan. En concreto:
+Una historia está terminada cuando cumple todo lo siguiente:
 
-- Las pruebas unitarias están escritas y en verde
-- `flutter analyze` no arroja advertencias
-- El código fue revisado por al menos otro integrante
-- Se respeta el contrato de respuestas y el catálogo de errores
-- Los errores de negocio se traducen a estados de interfaz comprensibles
-- La respuesta correcta no se expone antes de que el estudiante responda
-- No hay credenciales ni secretos versionados
+- El encargado de pruebas verificó sus criterios de aceptación sobre el entorno desplegado.
+- Las pruebas se escribieron antes del código y pasan, incluida la de integridad.
+- El analizador estático no reporta advertencias en el módulo.
+- Entró por una solicitud aprobada en GitHub por un integrante distinto del autor.
+- Respeta el contrato de la API y traduce los errores de negocio a estados de pantalla.
+- No hay secretos ni datos reales en el repositorio, y los datos de producción se cargan desde `main` revisado.
+- Sus decisiones quedaron en la bitácora.
 
 ### Control de versiones
 
-- Rama principal: `main`
-- Ramas de trabajo: `feature/<descripción-breve>`
-- Integración a `main` a diario, con revisión previa de al menos un integrante
+- Rama principal `main`, protegida por convención: nada entra sin solicitud revisada.
+- Ramas de trabajo `feature/*`, `fix/*` y `docs/*`.
+- Fusión con commit de fusión, después de la aprobación de otro integrante.
+- Cada integrante trabaja con su propia identidad de git.
+
 
 ---
 
@@ -339,19 +262,23 @@ Una historia está terminada cuando sus pruebas de aceptación pasan. En concret
 
 | Integrante | Rol en XP | Responsabilidad principal |
 |---|---|---|
-| Martin Alonso Espinoza Morales | Coach y Tracker | Guía las prácticas, mide la velocidad, coordina con la empresa y ejerce como cliente delegado |
-| Jeremías Danilo Fernández Millacura | Programador | Servicios de backend y modelo de datos |
-| Sebastián Roberto Acevedo Araya | Programador | Cliente móvil y capa de presentación |
+| Martin Alonso Espinoza Morales | Tracker y Tester | Seguimiento, velocidad, reflexiones de cierre y pruebas de aceptación |
+| Jeremías Danilo Fernández Millacura | Programador | Backend, modelo de datos y despliegue |
+| Sebastián Roberto Acevedo Araya | Programador | App y capa de presentación |
 
-Los tres escriben sus propias pruebas: con un equipo de este tamaño, Extreme Programming no separa el rol de tester. La propiedad colectiva del código implica que estos focos indican responsabilidad principal, no exclusividad.
-
-**Profesora guía:** Eliana Mallen González
-**Empresa contraparte:** Alloxentric, vinculada mediante la Incubadora Duoc UC San Bernardo
+La profesora guía, **Eliana Mallen González**, cumple el rol de Coach. Por la empresa, el rol de Cliente lo ejerce la contraparte técnica de Alloxentric y el de Gestora, la jefa de proyecto.
 
 ---
 
 ## Contexto académico
 
-Este repositorio corresponde al Proyecto de Título de la asignatura **PTY4614 Capstone**, sección CAPSTONE_002D, de la carrera de Ingeniería en Informática de **Duoc UC, sede San Bernardo**, durante el segundo semestre de 2026.
+Proyecto de Título de la asignatura **PTY4614 Capstone**, sección CAPSTONE_002D, de la carrera de Ingeniería en Informática de **Duoc UC, sede San Bernardo**, segundo semestre de 2026.
 
-El desarrollo se organiza en tres fases: definición del proyecto, desarrollo del producto y presentación ante la comisión evaluadora.
+| Hito | Semana |
+|---|---|
+| Informe de avance | 9 |
+| Presentación de avance | 10 |
+| Proyecto completo en contenedores (empresa) | 12 |
+| Informe final | 15 |
+| Comisión evaluadora | 17 |
+| Presentación a empresas vinculadas | 18 |
