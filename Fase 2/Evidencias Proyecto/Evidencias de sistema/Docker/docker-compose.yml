@@ -1,0 +1,36 @@
+# API y emulador de Firestore en contenedores (HT-03, ADR-92). Solo para desarrollo y pruebas: Firestore es el
+# emulador, con el seed sintético, y los tokens los valida Firebase Auth real, como en local (ADR-49).
+name: aprueba
+
+services:
+  firestore:
+    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:588.0.0-emulators
+    command: gcloud emulators firestore start --host-port=0.0.0.0:8085
+    ports:
+      - "127.0.0.1:8085:8085"
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://127.0.0.1:8085/"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  api:
+    build: ./backend
+    # backend/.env, copiado de backend/.env.example, aporta los UID del seed. Lo de abajo manda sobre ese archivo.
+    env_file:
+      - path: ./backend/.env
+        required: false
+    environment:
+      APP_ENV: local
+      PORT: "8080"
+      FIRESTORE_EMULATOR_HOST: firestore:8085
+      FIRESTORE_EMULATOR_PROJECT_ID: demo-aprueba
+      FIREBASE_PROJECT_ID: aprueba-app-modulo-preguntas
+      # La cuenta de servicio no entra al contenedor: con el emulador no hace falta.
+      FIREBASE_SERVICE_ACCOUNT_BASE64: ""
+      ALLOWED_ORIGINS: http://localhost:5050
+    ports:
+      - "127.0.0.1:4000:8080"
+    depends_on:
+      firestore:
+        condition: service_healthy
