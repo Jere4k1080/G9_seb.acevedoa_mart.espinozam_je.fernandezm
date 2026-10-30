@@ -12,6 +12,8 @@ Módulo de práctica de Aprueba, la app de preparación para la PAES de la empre
 
 ## Instalación
 
+Los comandos están probados en Windows PowerShell. En macOS o Linux se usan `npx` y `curl` en lugar de `npx.cmd` y `curl.exe`.
+
 ```powershell
 git clone https://github.com/Jere4k1080/aprueba_app_modulo_preguntas.git
 cd aprueba_app_modulo_preguntas
@@ -46,6 +48,8 @@ cp backend/.env.example backend/.env
 | `ALLOWED_ORIGINS` | `http://localhost:5050` | Origen de la app web que el backend acepta |
 | `SEED_DEMO_UID` y `SEED_DEMO_NEW_UID` | UID de las cuentas de demostración | Cargar los datos de prueba con esas cuentas. Los entrega el equipo |
 
+`backend/.env.example` trae además `PORT`, `QUOTA_RESET_HOUR_LOCAL`, `QUOTA_RESET_TIMEZONE`, `ALLOWED_ORIGIN_PATTERN` y `SEED_ALLOW_REMOTE`, que en local se dejan con el valor del ejemplo.
+
 `FIREBASE_SERVICE_ACCOUNT_BASE64` solo se usa en el despliegue y nunca se escribe en el repositorio ni en el archivo local.
 
 La app recibe la dirección del backend al ejecutarse, con `--dart-define=API_BASE_URL`.
@@ -67,7 +71,11 @@ uv run uvicorn app.main:app --port 4000
 flutter run -d chrome --web-port=5050 --dart-define=API_BASE_URL=http://localhost:4000/api/v1
 ```
 
-Con Docker, `docker compose up --build` levanta el emulador y la API juntos, y la app se ejecuta igual que en la terminal 3.
+Con Docker, `docker compose up --build` levanta el emulador y la API juntos, y la app se ejecuta igual que en la terminal 3. El emulador del contenedor parte vacío: los datos de prueba se cargan desde otra terminal, con los UID de `backend/.env`.
+
+```powershell
+docker compose run --rm api python -m app.seed
+```
 
 Ejemplo mínimo: la API responde su estado con la estructura común de todas sus respuestas.
 
@@ -95,7 +103,7 @@ La versión publicada está en https://aprueba-app-modulo-preguntas.vercel.app, 
 
 ## Enfoque de trabajo en equipo
 
-Extreme Programming (XP), con iteraciones semanales, pruebas escritas antes que el código y revisión de cada cambio por otro integrante · Product Backlog y tablero Kanban en Trello, y solicitudes de cambio en GitHub · Tres entregas funcionales, aceptadas en producción.
+Extreme Programming (XP), con iteraciones semanales, pruebas escritas antes que el código y revisión de cada cambio por otro integrante · Product Backlog y tablero Kanban en Trello, y solicitudes de cambio en GitHub · Tres entregas funcionales, cada una aceptada en producción al cerrarla.
 
 ## Estructura del proyecto
 
