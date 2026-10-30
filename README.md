@@ -12,7 +12,7 @@ Módulo de práctica de Aprueba, la app de preparación para la PAES de la empre
 
 ## Instalación
 
-```bash
+```powershell
 git clone https://github.com/Jere4k1080/aprueba_app_modulo_preguntas.git
 cd aprueba_app_modulo_preguntas
 
@@ -33,13 +33,13 @@ cd ..
 
 El backend lee sus variables desde `backend/.env`, que no se versiona. Se crea a partir del ejemplo:
 
-```bash
+```powershell
 cp backend/.env.example backend/.env
 ```
 
 | Variable | Valor en local | Para qué sirve |
 |---|---|---|
-| `APP_ENV` | `development` | Entorno de ejecución |
+| `APP_ENV` | `local` | Entorno de ejecución |
 | `FIRESTORE_EMULATOR_HOST` | `127.0.0.1:8085` | Conecta el backend al emulador de Firestore |
 | `FIRESTORE_EMULATOR_PROJECT_ID` | `demo-aprueba` | Proyecto del emulador; el prefijo `demo-` impide tocar datos reales |
 | `FIREBASE_PROJECT_ID` | `aprueba-app-modulo-preguntas` | Proyecto de Firebase contra el que se validan los inicios de sesión |
@@ -54,9 +54,9 @@ La app recibe la dirección del backend al ejecutarse, con `--dart-define=API_BA
 
 En local se necesitan tres terminales, desde la raíz del repositorio:
 
-```bash
+```powershell
 # Terminal 1: emulador de Firestore
-npx firebase-tools emulators:start --only firestore --project demo-aprueba
+npx.cmd firebase-tools emulators:start --only firestore --project demo-aprueba
 
 # Terminal 2: datos de prueba y API en el puerto 4000
 cd backend
@@ -71,21 +71,22 @@ Con Docker, `docker compose up --build` levanta el emulador y la API juntos, y l
 
 Ejemplo mínimo: la API responde su estado con la estructura común de todas sus respuestas.
 
-```bash
-curl http://localhost:4000/api/v1/health
+```powershell
+curl.exe http://localhost:4000/api/v1/health
 ```
 
 ```json
-{ "data": { "status": "ok" }, "error": null, "meta": { "requestId": "req_...", "timestamp": "..." } }
+{ "data": { "status": "ok", "service": "aprueba-questions-backend", "version": "1.0.0", "uptimeSeconds": 5, "environment": "local" }, "error": null, "meta": { "requestId": "req_...", "timestamp": "..." } }
 ```
 
 En la app, se inicia sesión con una cuenta de demostración, se elige una materia y se responde una pregunta para ver el resultado. Las credenciales las entrega el equipo.
 
 Para correr las pruebas:
 
-```bash
+```powershell
 flutter test
-cd backend && uv run pytest
+cd backend
+uv run pytest
 ```
 
 Las pruebas del backend que necesitan Firestore se omiten si el emulador no está encendido.
